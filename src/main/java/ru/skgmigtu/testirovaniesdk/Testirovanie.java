@@ -29,6 +29,14 @@ public class Testirovanie {
             .setPrettyPrinting()
             .create();
 
+    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
+        // получаем соединение со страницей тестирования
+        Connection.Response testConnection = getTestResponse(studID, subject, type, part);
+        return testConnection == null ?
+                Collections.emptyList() :
+                parse(testConnection.parse()); // получаем страницу тестирования и парсим ее
+    }
+
     private Connection.Response getTestResponse(int studID, String subject, Type type, Part part) throws IOException {
         // создаем соединение со страницей авторизации для пробного тестирования
         Connection.Response loginConnection = Jsoup.connect(TRY_LINK)
