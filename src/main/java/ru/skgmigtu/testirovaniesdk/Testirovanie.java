@@ -197,4 +197,12 @@ public class Testirovanie {
         }
     }
 
+    public List<QuestionAnswers> read(String filepath) throws IOException {
+        try (InputStream is = new FileInputStream(filepath)) {
+            String json = IOUtils.toString(is, StandardCharsets.UTF_8);
+            return gson.fromJson(json, new TypeToken<List<QuestionAnswers>>() {
+            }.getType());
+        }
+    }
+
 }
