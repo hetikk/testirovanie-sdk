@@ -7,10 +7,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ru.skgmigtu.testirovaniesdk.models.Item;
 import ru.skgmigtu.testirovaniesdk.models.Part;
+import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.Type;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class Testirovanie {
 
@@ -107,6 +113,43 @@ public class Testirovanie {
 
     private String getElementValueById(Document doc, String id) {
         return doc.getElementById(id).attr("value");
+    }
+
+    public List<QuestionAnswers> parse(Document doc) {
+        List<QuestionAnswers> result = new ArrayList<>();
+
+        Elements rows = doc.select("#mainPanel > table > tbody > tr:nth-child(odd)");
+        for (Element row : rows) {
+            int questionID = Integer.parseInt(row.select("*[id~=^taskRep_ctl[0-9]{2}_LabelId]").first().text());
+            String questionText = row.select("*[id~=^taskRep_ctl[0-9]{2}_task1Label$]").first().text();
+
+            Elements answersBlock = row.select("*[id~=(^taskRep_ctl[0-9]{2}_RadioButtonList1$)|(^taskRep_ctl[0-9]{2}_CheckBoxList1$)] td");
+            List<Item> answers = new ArrayList<>();
+            boolean multipleChoice = false;
+            for (Element item : answersBlock) {
+                Element input = item.child(0);
+                if (input.attr("type").equals("checkbox"))
+                    multipleChoice = true;
+                int inputID = Integer.parseInt(input.attr("value"));
+                String text = item.child(1).text();
+                answers.add(new Item(inputID, text));
+            }
+
+            Item rightAnswer = multipleChoice ?
+                    null :
+                    answers.stream().min(Comparator.comparingInt(Item::getId)).get();
+
+            result.add(new QuestionAnswers(
+                    new Item(questionID, questionText),
+                    answers,
+                    rightAnswer,
+                    multipleChoice
+            ));
+        }
+
+        Collections.sort(result);
+
+        return result;
     }
 
 }
