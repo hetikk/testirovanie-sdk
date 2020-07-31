@@ -2,6 +2,8 @@ package ru.skgmigtu.testirovaniesdk;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,7 +14,11 @@ import ru.skgmigtu.testirovaniesdk.models.Part;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.Type;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -183,6 +189,12 @@ public class Testirovanie {
         Collections.sort(result);
 
         return result;
+    }
+
+    public void save(String filepath, List<QuestionAnswers> list) throws IOException {
+        try (FileWriter writer = new FileWriter(filepath)) {
+            writer.write(gson.toJson(list));
+        }
     }
 
 }
