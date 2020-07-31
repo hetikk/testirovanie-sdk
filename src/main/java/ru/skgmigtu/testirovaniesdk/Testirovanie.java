@@ -14,10 +14,7 @@ import ru.skgmigtu.testirovaniesdk.models.Part;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.Type;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -189,6 +186,11 @@ public class Testirovanie {
         Collections.sort(result);
 
         return result;
+    }
+
+    public List<QuestionAnswers> parse(File file) throws Exception {
+        Document document = Jsoup.parse(file, "UTF-8");
+        return parse(document);
     }
 
     public void save(String filepath, List<QuestionAnswers> list) throws IOException {
