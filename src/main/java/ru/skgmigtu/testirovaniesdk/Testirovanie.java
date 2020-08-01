@@ -99,21 +99,7 @@ public class Testirovanie {
         return parse(document);
     }
 
-    public void save(String filepath, List<QuestionAnswers> list) throws IOException {
-        try (FileWriter writer = new FileWriter(filepath)) {
-            writer.write(gson.toJson(list));
-        }
-    }
-
-    public List<QuestionAnswers> read(String filepath) throws IOException {
-        try (InputStream is = new FileInputStream(filepath)) {
-            String json = IOUtils.toString(is, StandardCharsets.UTF_8);
-            return gson.fromJson(json, new TypeToken<List<QuestionAnswers>>() {
-            }.getType());
-        }
-    }
-
-    public List<SubjectValue> getAvailableSubjects(int studID, Type type, Part part) throws IOException {
+    public List<SubjectValue> availableSubjects(int studID, Type type, Part part) throws IOException {
         Connection.Response subjectResponse = Responses.getSubjectResponse(studID, type, part);
         Document subjectDocument = subjectResponse.parse();
         Elements children = subjectDocument.select("#disDDL > option");
