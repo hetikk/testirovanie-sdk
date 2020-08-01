@@ -28,7 +28,7 @@ int studID = 16001;                         // ID студента (номер �
 Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
 Part part = Part.A;                         // часть (А, В)
 
-List<SubjectValue> svList = testirovanie.getAvailableSubjects(studID, type, part);
+List<SubjectValue> svList = testirovanie.availableSubjects(studID, type, part);
 
 for (SubjectValue sv : svList) {
     System.out.println(sv);
