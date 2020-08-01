@@ -1,7 +1,7 @@
 package ru.skgmigtu.testirovaniesdk;
 
 import ru.skgmigtu.testirovaniesdk.models.Part;
-import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
+import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
 import ru.skgmigtu.testirovaniesdk.models.Type;
 
 import java.util.List;
@@ -12,12 +12,11 @@ public class Example {
 
         final Testirovanie testirovanie = new Testirovanie();
 
-        List<QuestionAnswers> answers = testirovanie.getQuestionsAndAnswers(
-                16001, "Intranet-технология", Type.RATING_1, Part.A);
+        List<SubjectValue> answers = testirovanie.getAvailableSubjects(
+                16001, Type.RATING_1, Part.A);
 
-        for (QuestionAnswers answer : answers) {
+        for (SubjectValue answer : answers) {
             System.out.println(answer);
-            System.out.println();
         }
 
     }

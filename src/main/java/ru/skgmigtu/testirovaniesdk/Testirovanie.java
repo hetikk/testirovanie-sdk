@@ -112,4 +112,24 @@ public class Testirovanie {
             }.getType());
         }
     }
+
+    public List<SubjectValue> getAvailableSubjects(int studID, Type type, Part part) throws IOException {
+        Connection.Response subjectResponse = Responses.getSubjectResponse(studID, type, part);
+        Document subjectDocument = subjectResponse.parse();
+        Elements children = subjectDocument.select("#disDDL > option");
+
+        List<SubjectValue> result = new ArrayList<>(children.size());
+        for (Element child : children) {
+            int value = Integer.parseInt(child.attr("value"));
+            if (value != 0) {
+                result.add(new SubjectValue(
+                        child.text(),
+                        value
+                ));
+            }
+        }
+
+        return result;
+    }
+
 }
