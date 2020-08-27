@@ -7,6 +7,7 @@ import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
 import ru.skgmigtu.testirovaniesdk.models.enums.Part;
 import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Example {
@@ -28,8 +29,16 @@ public class Example {
                 part,
                 repetitions);
 
+        // можно даже так
+        List<LoginInformation> liList = new ArrayList<LoginInformation>() {{
+            add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.A, 3));
+            add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.B, 3));
+            add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.A, 3));
+            add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.B, 3));
+        }};
+
         System.out.println("Списока вопросов и ответов:");
-        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(li);
+        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(liList);
         for (QuestionAnswers qa : qaList) {
             System.out.println(qa);
         }

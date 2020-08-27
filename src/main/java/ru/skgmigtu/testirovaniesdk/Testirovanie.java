@@ -16,9 +16,11 @@ import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Testirovanie {
 
@@ -32,6 +34,49 @@ public class Testirovanie {
 
     public Testirovanie(String baseUrl) {
         responses = new Responses(baseUrl);
+    }
+
+    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
+        // получаем соединение со страницей тестирования
+        Connection.Response testConnection = responses.getTestResponse(studID, subject, type, part);
+        return testConnection == null ?
+                Collections.emptyList() :
+                parse(testConnection.parse()); // получаем страницу тестирования и парсим ее
+    }
+
+    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part, int repetitions) throws Exception {
+        if (repetitions < 1)
+            throw new IllegalArgumentException("значение переменной repetitions не может быть меньше 1");
+        if (REPETITION_COUNT < repetitions)
+            throw new IllegalArgumentException("значение переменной repetitions слишком большое (макс. " + REPETITION_COUNT + ")");
+
+        final int threadCount = Math.min(
+                Math.max(repetitions / 2, 1),
+                Runtime.getRuntime().availableProcessors()
+        );
+
+        Set<QuestionAnswers> result = Collections.synchronizedSet(new TreeSet<>());
+        ExecutorService threadPool = Executors.newFixedThreadPool(threadCount);
+        for (int i = studID; i < studID + repetitions; i++) {
+            int finalI = i;
+            threadPool.execute(() -> {
+                try {
+                    result.addAll(getQuestionsAndAnswers(finalI, subject, type, part));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        threadPool.shutdown();
+
+        try {
+            threadPool.awaitTermination(repetitions * 45, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>(result);
     }
 
     public List<QuestionAnswers> getQuestionsAndAnswers(LoginInformation li) throws Exception {
@@ -55,41 +100,15 @@ public class Testirovanie {
         }
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
-        // получаем соединение со страницей тестирования
-        Connection.Response testConnection = responses.getTestResponse(studID, subject, type, part);
-        return testConnection == null ?
-                Collections.emptyList() :
-                parse(testConnection.parse()); // получаем страницу тестирования и парсим ее
-    }
-
-    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part, int repetitions) throws Exception {
-        if (repetitions < 1)
-            throw new IllegalArgumentException("значение переменной repetitions не может быть меньше 1");
-        if (REPETITION_COUNT < repetitions)
-            throw new IllegalArgumentException("значение переменной repetitions слишком большое (макс. " + REPETITION_COUNT + ")");
-
-        final int threadCount = Math.max(repetitions / 2, 1);
+    public List<QuestionAnswers> getQuestionsAndAnswers(List<LoginInformation> liList) throws Exception {
+        // TODO: сделать обработку в нескольких потоках
 
         Set<QuestionAnswers> result = Collections.synchronizedSet(new TreeSet<>());
-        ExecutorService threadPool = Executors.newFixedThreadPool(threadCount);
-        for (int i = studID; i <= studID + repetitions; i++) {
-            int finalI = i;
-            threadPool.execute(() -> {
-                try {
-                    List<QuestionAnswers> list = getQuestionsAndAnswers(finalI, subject, type, part);
-                    result.addAll(list);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
-        threadPool.shutdown();
 
-        boolean done = threadPool.awaitTermination(repetitions * 45, TimeUnit.SECONDS);
-        if (!done) {
-            threadPool.shutdownNow();
+        for (LoginInformation loginInformation : liList) {
+            result.addAll(getQuestionsAndAnswers(loginInformation));
         }
+
         return new ArrayList<>(result);
     }
 
