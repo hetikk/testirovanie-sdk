@@ -12,7 +12,24 @@ String subjectName = "Intranet-технология"; // название дис
 Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
 Part part = Part.A;                         // часть (А, В)
 
-List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(studID, subjectName, type, part);
+// или в виде одного объекта
+LoginInformation li = new LoginInformation(
+                studID,
+                subjectName,
+                type,
+                part,
+                repetitions
+);
+
+// можно даже так
+List<LoginInformation> liList = new ArrayList<LoginInformation>() {{
+    add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.A, 3));
+    add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.B, 3));
+    add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.A, 3));
+    add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.B, 3));
+}};
+
+List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(liList);
 
 for (QuestionAnswers qa : qaList) {
     System.out.println(qa);
