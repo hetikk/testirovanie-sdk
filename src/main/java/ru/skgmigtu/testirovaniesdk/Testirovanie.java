@@ -1,13 +1,12 @@
 package ru.skgmigtu.testirovaniesdk;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.skgmigtu.testirovaniesdk.models.Item;
+import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
 import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
@@ -25,7 +24,7 @@ public class Testirovanie {
 
     private final Responses responses;
 
-    private static final int REPETITION_COUNT = 35;
+    public static final int REPETITION_COUNT = 35;
 
     public Testirovanie(BaseUrl baseUrl) {
         responses = new Responses(baseUrl.value());
@@ -33,6 +32,27 @@ public class Testirovanie {
 
     public Testirovanie(String baseUrl) {
         responses = new Responses(baseUrl);
+    }
+
+    public List<QuestionAnswers> getQuestionsAndAnswers(LoginInformation li) throws Exception {
+        int repetitions = li.getRepetitions();
+
+        if (repetitions == 1) {
+            return getQuestionsAndAnswers(
+                    li.getStudID(),
+                    li.getSubjectName(),
+                    li.getType(),
+                    li.getPart()
+            );
+        } else {
+            return getQuestionsAndAnswers(
+                    li.getStudID(),
+                    li.getSubjectName(),
+                    li.getType(),
+                    li.getPart(),
+                    repetitions
+            );
+        }
     }
 
     public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {

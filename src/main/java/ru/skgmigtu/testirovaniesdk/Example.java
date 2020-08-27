@@ -1,5 +1,6 @@
 package ru.skgmigtu.testirovaniesdk;
 
+import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
 import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
@@ -20,8 +21,15 @@ public class Example {
         Part part = Part.A;                         // часть (А, В)
         int repetitions = 1;                        // количество повторений
 
+        LoginInformation li = new LoginInformation( // или в виде одного объекта
+                studID,
+                subjectName,
+                type,
+                part,
+                repetitions);
+
         System.out.println("Списока вопросов и ответов:");
-        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(studID, subjectName, type, part, repetitions);
+        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(li);
         for (QuestionAnswers qa : qaList) {
             System.out.println(qa);
         }
