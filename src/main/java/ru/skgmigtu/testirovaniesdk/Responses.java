@@ -5,19 +5,23 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.models.Part;
-import ru.skgmigtu.testirovaniesdk.models.Type;
+import ru.skgmigtu.testirovaniesdk.models.enums.Part;
+import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 
 import java.io.IOException;
 
 public class Responses {
 
-    private static final String TRY_LINK = "http://testirovanie.skgmi-gtu.ru/reiting_try/control.aspx";
-    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, " +
+    private String TRY_LINK;
+    private final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, " +
             "like Gecko) Chrome/81.0.4044.138 YaBrowser/20.6.0.905 Yowser/2.5 Yptp/1.23 Safari/537.36";
     private static final int CONNECTION_TIMEOUT = 60_000;
 
-    public static Connection.Response getLoginResponse() throws IOException {
+    public Responses(String baseUrl) {
+        TRY_LINK = baseUrl + "/reiting_try/control.aspx";
+    }
+
+    public Connection.Response getLoginResponse() throws IOException {
         return Jsoup.connect(TRY_LINK)
                 .timeout(CONNECTION_TIMEOUT)
                 .method(Connection.Method.GET)
@@ -25,7 +29,7 @@ public class Responses {
                 .execute();
     }
 
-    public static Connection.Response getChooseResponse(int studID) throws IOException {
+    public Connection.Response getChooseResponse(int studID) throws IOException {
         Connection.Response loginResponse = getLoginResponse();
         Document loginDoc = loginResponse.parse();
         return Jsoup.connect(TRY_LINK)
@@ -40,7 +44,7 @@ public class Responses {
                 .execute();
     }
 
-    public static Connection.Response getSubjectResponse(int studID, Type type, Part part) throws IOException {
+    public Connection.Response getSubjectResponse(int studID, Type type, Part part) throws IOException {
         Connection.Response chooseResponse = getChooseResponse(studID);
         Document chooseDoc = chooseResponse.parse();
         return Jsoup.connect(TRY_LINK)
@@ -58,7 +62,7 @@ public class Responses {
                 .execute();
     }
 
-    public static Connection.Response getTestResponse(int studID, String subject, Type type, Part part) throws IOException {
+    public Connection.Response getTestResponse(int studID, String subject, Type type, Part part) throws IOException {
         // получаем ответа со страницы выбора дисциплины в зависимости от
         // указанных типа и сложности тестирования
         Connection.Response subjectResponse = getSubjectResponse(studID, type, part);
@@ -90,7 +94,7 @@ public class Responses {
                 .execute();
     }
 
-    private static String getSubjectValue(Document dos, String subjectName) {
+    private String getSubjectValue(Document dos, String subjectName) {
         // получаем value выборанной дисциплины
         String subjectValue = null;
         Elements children = dos.select("#disDDL > option");
@@ -102,7 +106,7 @@ public class Responses {
         return subjectValue;
     }
 
-    private static String getElementValueById(Document doc, String id) {
+    private String getElementValueById(Document doc, String id) {
         return doc.getElementById(id).attr("value");
     }
 

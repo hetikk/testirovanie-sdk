@@ -2,17 +2,20 @@ package ru.skgmigtu.testirovaniesdk;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import org.apache.commons.io.IOUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.models.*;
+import ru.skgmigtu.testirovaniesdk.models.Item;
+import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
+import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
+import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
+import ru.skgmigtu.testirovaniesdk.models.enums.Part;
+import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -20,20 +23,33 @@ import java.util.concurrent.TimeUnit;
 
 public class Testirovanie {
 
-    private static final Gson gson = new GsonBuilder()
-            .setPrettyPrinting()
-            .create();
+    private final Responses responses;
+
+    private static final int REPETITION_COUNT = 35;
+
+    public Testirovanie(BaseUrl baseUrl) {
+        responses = new Responses(baseUrl.value());
+    }
+
+    public Testirovanie(String baseUrl) {
+        responses = new Responses(baseUrl);
+    }
 
     public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
         // получаем соединение со страницей тестирования
-        Connection.Response testConnection = Responses.getTestResponse(studID, subject, type, part);
+        Connection.Response testConnection = responses.getTestResponse(studID, subject, type, part);
         return testConnection == null ?
                 Collections.emptyList() :
                 parse(testConnection.parse()); // получаем страницу тестирования и парсим ее
     }
 
     public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part, int repetitions) throws Exception {
-        final int threadCount = repetitions / 2;
+        if (repetitions < 1)
+            throw new IllegalArgumentException("значение переменной repetitions не может быть меньше 1");
+        if (REPETITION_COUNT < repetitions)
+            throw new IllegalArgumentException("значение переменной repetitions слишком большое (макс. " + REPETITION_COUNT + ")");
+
+        final int threadCount = Math.max(repetitions / 2, 1);
 
         Set<QuestionAnswers> result = Collections.synchronizedSet(new TreeSet<>());
         ExecutorService threadPool = Executors.newFixedThreadPool(threadCount);
@@ -100,7 +116,7 @@ public class Testirovanie {
     }
 
     public List<SubjectValue> availableSubjects(int studID, Type type, Part part) throws IOException {
-        Connection.Response subjectResponse = Responses.getSubjectResponse(studID, type, part);
+        Connection.Response subjectResponse = responses.getSubjectResponse(studID, type, part);
         Document subjectDocument = subjectResponse.parse();
         Elements children = subjectDocument.select("#disDDL > option");
 

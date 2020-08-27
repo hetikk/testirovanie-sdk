@@ -1,4 +1,4 @@
-package ru.skgmigtu.testirovaniesdk.models;
+package ru.skgmigtu.testirovaniesdk.models.enums;
 
 public enum Type {
 
