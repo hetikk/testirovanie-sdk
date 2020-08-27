@@ -5,7 +5,7 @@
 ## Список вопросов и ответов <a name="question-answers-list"></a>
 
 ```java
-Testirovanie testirovanie = new Testirovanie();
+Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
 
 int studID = 16001;                         // ID студента (номер зачетки), от имени которого совершается действие
 String subjectName = "Intranet-технология"; // название дисциплины
@@ -39,7 +39,7 @@ for (QuestionAnswers qa : qaList) {
 ## Список доступных предметов <a name="available-subjects"></a>
 
 ```java
-Testirovanie testirovanie = new Testirovanie();
+Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
 
 int studID = 16001;                         // ID студента (номер зачетки), от имени которого совершается действие
 Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
