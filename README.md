@@ -41,9 +41,9 @@ for (QuestionAnswers qa : qaList) {
 ```java
 Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
 
-int studID = 16001;                         // ID студента (номер зачетки), от имени которого совершается действие
-Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
-Part part = Part.A;                         // часть (А, В)
+int studID = 16001;         // ID студента (номер зачетки), от имени которого совершается действие
+Type type = Type.RATING_1;  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
+Part part = Part.A;         // часть (А, В)
 
 List<SubjectValue> svList = testirovanie.availableSubjects(studID, type, part);
 
