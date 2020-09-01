@@ -1,11 +1,11 @@
 package ru.skgmigtu.testirovaniesdk;
 
+import ru.skgmigtu.testirovaniesdk.Testirovanie.BaseUrl;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
 import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
-import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
-import ru.skgmigtu.testirovaniesdk.models.enums.Part;
-import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 
 import java.util.ArrayList;
 import java.util.List;

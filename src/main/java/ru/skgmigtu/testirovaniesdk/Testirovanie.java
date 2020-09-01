@@ -9,18 +9,13 @@ import ru.skgmigtu.testirovaniesdk.models.Item;
 import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
-import ru.skgmigtu.testirovaniesdk.models.enums.BaseUrl;
-import ru.skgmigtu.testirovaniesdk.models.enums.Part;
-import ru.skgmigtu.testirovaniesdk.models.enums.Type;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Testirovanie {
 
@@ -171,6 +166,53 @@ public class Testirovanie {
         }
 
         return result;
+    }
+
+    public enum BaseUrl {
+        LOCAL("testirovanie"),
+        REMOTE("http://testirovanie.skgmi-gtu.ru");
+
+        private String value;
+
+        BaseUrl(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
+    public enum Part {
+        A(1),
+        B(2);
+
+        private int value;
+
+        Part(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return value;
+        }
+    }
+
+    public enum Type {
+        RATING_1(1),
+        RATING_2(2),
+        ZACHET(3),
+        EXAM(4);
+
+        private int value;
+
+        Type(int value) {
+            this.value = value;
+        }
+
+        public int value() {
+            return value;
+        }
     }
 
 }

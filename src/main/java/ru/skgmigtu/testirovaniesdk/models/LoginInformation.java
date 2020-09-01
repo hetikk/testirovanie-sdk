@@ -1,7 +1,7 @@
 package ru.skgmigtu.testirovaniesdk.models;
 
-import ru.skgmigtu.testirovaniesdk.models.enums.Part;
-import ru.skgmigtu.testirovaniesdk.models.enums.Type;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
 
 import java.io.Serializable;
 import java.util.Objects;

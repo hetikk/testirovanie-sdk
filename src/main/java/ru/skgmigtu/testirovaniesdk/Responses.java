@@ -5,8 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.models.enums.Part;
-import ru.skgmigtu.testirovaniesdk.models.enums.Type;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
+import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
 
 import java.io.IOException;
 
@@ -54,8 +54,8 @@ public class Responses {
                 .data("__EVENTARGUMENT", getElementValueById(chooseDoc, "__EVENTARGUMENT"))
                 .data("__LASTFOCUS", getElementValueById(chooseDoc, "__LASTFOCUS"))
                 .data("__VIEWSTATE", getElementValueById(chooseDoc, "__VIEWSTATE"))
-                .data("modRBL", type.value())
-                .data("levelRBL", part.value())
+                .data("modRBL", type.value() + "")
+                .data("levelRBL", part.value() + "")
                 .data("disDDL", "0")
                 .method(Connection.Method.POST)
                 .userAgent(USER_AGENT)
@@ -86,8 +86,8 @@ public class Responses {
                 .data("__EVENTARGUMENT", getElementValueById(subjectPage, "__EVENTARGUMENT"))
                 .data("__LASTFOCUS", getElementValueById(subjectPage, "__LASTFOCUS"))
                 .data("__VIEWSTATE", getElementValueById(subjectPage, "__VIEWSTATE"))
-                .data("modRBL", type.value())
-                .data("levelRBL", part.value())
+                .data("modRBL", type.value() + "")
+                .data("levelRBL", part.value() + "")
                 .data("disDDL", subjectValue)
                 .method(Connection.Method.POST)
                 .userAgent(USER_AGENT)
