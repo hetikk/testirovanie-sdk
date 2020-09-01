@@ -14,13 +14,9 @@ public class Example {
 
         Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
 
-        int studID = 16001;                         // ID студента (номер зачетки), от имени которого совершается действие
-        String subjectName = "Intranet-технология"; // название дисциплины
-        Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
-        Part part = Part.A;                         // часть (А, В)
-        int repetitions = 1;                        // количество повторений
+        List<GroupTest> gtList = new ArrayList<>();
 
-        GroupTest gt = new GroupTest(
+        GroupTest gt1 = new GroupTest(
                 16001,
                 "Intranet-технология",
                 new ArrayList<GroupItem>() {{
@@ -28,21 +24,15 @@ public class Example {
                     add(new GroupItem(Type.RATING_1, Part.B));
                     add(new GroupItem(Type.RATING_2, Part.A));
                     add(new GroupItem(Type.RATING_2, Part.B));
-                    add(new GroupItem(Type.ZACHET, Part.A));
                 }},
                 1
         );
+        gtList.add(gt1);
 
         System.out.println("Списока вопросов и ответов:");
-        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gt);
+        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gtList);
         for (QuestionAnswers qa : qaList) {
             System.out.println(qa);
-        }
-
-        System.out.println("\nСписок доступных предметов:");
-        List<SubjectValue> svList = testirovanie.availableSubjects(studID, type, part);
-        for (SubjectValue subjectValue : svList) {
-            System.out.println(subjectValue);
         }
 
     }

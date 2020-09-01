@@ -11,25 +11,82 @@ int studID = 16001;                         // ID студента (номер �
 String subjectName = "Intranet-технология"; // название дисциплины
 Type type = Type.RATING_1;                  // тип сдачи (Рейтинг 1, Рейтинг 2, Зачет, Экзамен)
 Part part = Part.A;                         // часть (А, В)
+int repetitions = 1;                        // количество повторений
 
-// или в виде одного объекта
-LoginInformation li = new LoginInformation(
-                studID,
-                subjectName,
-                type,
-                part,
-                repetitions
+List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(studID, subjectName, type, part, repetitions);
+
+for (QuestionAnswers qa : qaList) {
+    System.out.println(qa);
+}
+```
+
+```java
+Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
+
+GroupTest gt = new GroupTest(
+    16001,
+    "Intranet-технология",
+    new ArrayList<GroupItem>() {{
+        add(new GroupItem(Type.RATING_1, Part.A));
+        add(new GroupItem(Type.RATING_1, Part.B));
+        add(new GroupItem(Type.RATING_2, Part.A));
+        add(new GroupItem(Type.RATING_2, Part.B));
+    }},
+    1
 );
 
-// можно даже так
-List<LoginInformation> liList = new ArrayList<LoginInformation>() {{
-    add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.A, 3));
-    add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.B, 3));
-    add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.A, 3));
-    add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.B, 3));
-}};
+List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gt);
 
-List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(liList);
+for (QuestionAnswers qa : qaList) {
+    System.out.println(qa);
+}
+```
+
+```java
+Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
+
+List<GroupTest> gtList = new ArrayList<>();
+
+GroupTest gt1 = new GroupTest(
+    16001,
+    "Intranet-технология",
+    new ArrayList<GroupItem>() {{
+        add(new GroupItem(Type.RATING_1, Part.A));
+        add(new GroupItem(Type.RATING_1, Part.B));
+        add(new GroupItem(Type.RATING_2, Part.A));
+        add(new GroupItem(Type.RATING_2, Part.B));
+    }},
+    1
+);
+gtList.add(gt1);
+
+GroupTest gt2 = new GroupTest(
+    16001,
+    "Патентные исследования",
+    new ArrayList<GroupItem>() {{
+        add(new GroupItem(Type.RATING_1, Part.A));
+        add(new GroupItem(Type.RATING_1, Part.B));
+        add(new GroupItem(Type.RATING_2, Part.A));
+        add(new GroupItem(Type.RATING_2, Part.B));
+    }},
+    1
+);
+gtList.add(gt2);
+
+GroupTest gt3 = new GroupTest(
+    16001,
+    "Теория принятия решений",
+    new ArrayList<GroupItem>() {{
+        add(new GroupItem(Type.RATING_1, Part.A));
+        add(new GroupItem(Type.RATING_1, Part.B));
+        add(new GroupItem(Type.RATING_2, Part.A));
+        add(new GroupItem(Type.RATING_2, Part.B));
+    }},
+    1
+);
+gtList.add(gt3);
+
+List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gtList);
 
 for (QuestionAnswers qa : qaList) {
     System.out.println(qa);
