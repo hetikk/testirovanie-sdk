@@ -35,6 +35,7 @@ public class Testirovanie {
 
     public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
         // получаем соединение со страницей тестирования
+        System.out.println(String.format("{ %5d, %60s, %8s, %s, %s }", studID, subject, type, part, Thread.currentThread().getName()));
         Connection.Response testConnection = responses.getTestResponse(studID, subject, type, part);
         return testConnection == null ?
                 Collections.emptyList() :
