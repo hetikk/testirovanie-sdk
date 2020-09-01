@@ -3,15 +3,15 @@ package ru.skgmigtu.testirovaniesdk.models;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Item implements Serializable, Comparable<Item> {
+public class QAItem implements Serializable, Comparable<QAItem> {
 
     private int id;
     private String text;
 
-    public Item() {
+    public QAItem() {
     }
 
-    public Item(int id, String text) {
+    public QAItem(int id, String text) {
         this.id = id;
         this.text = text;
     }
@@ -33,7 +33,7 @@ public class Item implements Serializable, Comparable<Item> {
     }
 
     @Override
-    public int compareTo(Item o) {
+    public int compareTo(QAItem o) {
         return text.compareTo(o.text);
     }
 
@@ -41,9 +41,9 @@ public class Item implements Serializable, Comparable<Item> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return id == item.id &&
-                text.equals(item.text);
+        QAItem QAItem = (QAItem) o;
+        return id == QAItem.id &&
+                text.equals(QAItem.text);
     }
 
     @Override

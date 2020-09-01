@@ -5,7 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.models.Item;
+import ru.skgmigtu.testirovaniesdk.models.QAItem;
 import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
@@ -116,7 +116,7 @@ public class Testirovanie {
             String questionText = row.select("*[id~=^taskRep_ctl[0-9]{2}_task1Label$]").first().text();
 
             Elements answersBlock = row.select("*[id~=(^taskRep_ctl[0-9]{2}_RadioButtonList1$)|(^taskRep_ctl[0-9]{2}_CheckBoxList1$)] td");
-            List<Item> answers = new ArrayList<>();
+            List<QAItem> answers = new ArrayList<>();
             boolean multipleChoice = false;
             for (Element item : answersBlock) {
                 Element input = item.child(0);
@@ -124,15 +124,15 @@ public class Testirovanie {
                     multipleChoice = true;
                 int inputID = Integer.parseInt(input.attr("value"));
                 String text = item.child(1).text();
-                answers.add(new Item(inputID, text));
+                answers.add(new QAItem(inputID, text));
             }
 
-            Item rightAnswer = multipleChoice ?
+            QAItem rightAnswer = multipleChoice ?
                     null :
-                    answers.stream().min(Comparator.comparingInt(Item::getId)).get();
+                    answers.stream().min(Comparator.comparingInt(QAItem::getId)).get();
 
             result.add(new QuestionAnswers(
-                    new Item(questionID, questionText),
+                    new QAItem(questionID, questionText),
                     answers,
                     rightAnswer,
                     multipleChoice

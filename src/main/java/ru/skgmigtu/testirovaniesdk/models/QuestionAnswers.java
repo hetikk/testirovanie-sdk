@@ -9,45 +9,45 @@ import java.util.Objects;
 
 public class QuestionAnswers implements Serializable, Comparable<QuestionAnswers> {
 
-    private Item question;
-    private List<Item> answers;
+    private QAItem question;
+    private List<QAItem> answers;
     @SerializedName("right_answer")
-    private Item rightAnswer;
+    private QAItem rightAnswer;
     @SerializedName("multiple_choice")
     private boolean multipleChoice;
 
     public QuestionAnswers() {
     }
 
-    public QuestionAnswers(Item question, List<Item> answers, Item rightAnswer, boolean multipleChoice) {
+    public QuestionAnswers(QAItem question, List<QAItem> answers, QAItem rightAnswer, boolean multipleChoice) {
         this.question = question;
         setAnswers(answers);
         this.rightAnswer = rightAnswer;
         this.multipleChoice = multipleChoice;
     }
 
-    public Item getQuestion() {
+    public QAItem getQuestion() {
         return question;
     }
 
-    public void setQuestion(Item question) {
+    public void setQuestion(QAItem question) {
         this.question = question;
     }
 
-    public List<Item> getAnswers() {
+    public List<QAItem> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(List<Item> answers) {
+    public void setAnswers(List<QAItem> answers) {
         Collections.sort(answers);
         this.answers = answers;
     }
 
-    public Item getRightAnswer() {
+    public QAItem getRightAnswer() {
         return rightAnswer;
     }
 
-    public void setRightAnswer(Item rightAnswer) {
+    public void setRightAnswer(QAItem rightAnswer) {
         this.rightAnswer = rightAnswer;
     }
 
@@ -87,7 +87,7 @@ public class QuestionAnswers implements Serializable, Comparable<QuestionAnswers
         builder.append(String.format("Вопрос: %s (id=%d, multiple_choice=%b)\n",
                 question.getText(), question.getId(), multipleChoice));
 
-        for (Item answer : answers) {
+        for (QAItem answer : answers) {
             builder.append("  · ").append(answer.toString()).append("\n");
         }
 
