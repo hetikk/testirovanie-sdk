@@ -5,10 +5,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.models.QAItem;
-import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
-import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
-import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
+import ru.skgmigtu.testirovaniesdk.models.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,34 +71,30 @@ public class Testirovanie {
         return new ArrayList<>(result);
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(LoginInformation li) throws Exception {
-        int repetitions = li.getRepetitions();
+    public List<QuestionAnswers> getQuestionsAndAnswers(GroupTest gt) throws Exception {
+        Set<QuestionAnswers> result = new HashSet<>();
 
-        if (repetitions == 1) {
-            return getQuestionsAndAnswers(
-                    li.getStudID(),
-                    li.getSubjectName(),
-                    li.getType(),
-                    li.getPart()
-            );
-        } else {
-            return getQuestionsAndAnswers(
-                    li.getStudID(),
-                    li.getSubjectName(),
-                    li.getType(),
-                    li.getPart(),
-                    repetitions
-            );
+        List<GroupItem> groupItems = gt.getGroupItems();
+        for (GroupItem item : groupItems) {
+            result.addAll(getQuestionsAndAnswers(
+                    gt.getStudID(),
+                    gt.getSubjectName(),
+                    item.getType(),
+                    item.getPart(),
+                    gt.getRepetitions()
+            ));
         }
+
+        return new ArrayList<>(result);
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(List<LoginInformation> liList) throws Exception {
+    public List<QuestionAnswers> getQuestionsAndAnswers(List<GroupTest> gtList) throws Exception {
         // TODO: сделать обработку в нескольких потоках
 
-        Set<QuestionAnswers> result = Collections.synchronizedSet(new TreeSet<>());
+        Set<QuestionAnswers> result = new TreeSet<>();
 
-        for (LoginInformation loginInformation : liList) {
-            result.addAll(getQuestionsAndAnswers(loginInformation));
+        for (GroupTest gt : gtList) {
+            result.addAll(getQuestionsAndAnswers(gt));
         }
 
         return new ArrayList<>(result);

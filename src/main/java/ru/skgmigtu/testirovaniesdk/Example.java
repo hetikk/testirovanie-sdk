@@ -3,9 +3,7 @@ package ru.skgmigtu.testirovaniesdk;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.BaseUrl;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
-import ru.skgmigtu.testirovaniesdk.models.LoginInformation;
-import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
-import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
+import ru.skgmigtu.testirovaniesdk.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +20,21 @@ public class Example {
         Part part = Part.A;                         // часть (А, В)
         int repetitions = 1;                        // количество повторений
 
-        LoginInformation li = new LoginInformation( // или в виде одного объекта
-                studID,
-                subjectName,
-                type,
-                part,
-                repetitions);
-
-        // можно даже так
-        List<LoginInformation> liList = new ArrayList<LoginInformation>() {{
-            add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.A, 3));
-            add(new LoginInformation(16001, subjectName, Type.RATING_1, Part.B, 3));
-            add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.A, 3));
-            add(new LoginInformation(16001, subjectName, Type.RATING_2, Part.B, 3));
-        }};
+        GroupTest gt = new GroupTest(
+                16001,
+                "Intranet-технология",
+                new ArrayList<GroupItem>() {{
+                    add(new GroupItem(Type.RATING_1, Part.A));
+                    add(new GroupItem(Type.RATING_1, Part.B));
+                    add(new GroupItem(Type.RATING_2, Part.A));
+                    add(new GroupItem(Type.RATING_2, Part.B));
+                    add(new GroupItem(Type.ZACHET, Part.A));
+                }},
+                1
+        );
 
         System.out.println("Списока вопросов и ответов:");
-        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(liList);
+        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gt);
         for (QuestionAnswers qa : qaList) {
             System.out.println(qa);
         }
