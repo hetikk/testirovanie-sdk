@@ -74,7 +74,7 @@ public class Responses {
         // получаем value выбранной дисциплины
         String subjectValue = getSubjectValue(subjectPage, subject);
         if (subjectValue == null) {
-            System.err.println(String.format("Дисциплина '%s' не найдена для студента с ID=%d", subject, studID));
+            System.err.println(String.format("Дисциплина '%s (%s, %s)' не найдена для студента с ID=%d", subject, type, part, studID));
             return null;
         }
 

@@ -3,7 +3,9 @@ package ru.skgmigtu.testirovaniesdk;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.BaseUrl;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
 import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
-import ru.skgmigtu.testirovaniesdk.models.*;
+import ru.skgmigtu.testirovaniesdk.models.GroupItem;
+import ru.skgmigtu.testirovaniesdk.models.GroupTest;
+import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Example {
                     add(new GroupItem(Type.RATING_2, Part.A));
                     add(new GroupItem(Type.RATING_2, Part.B));
                 }},
-                1
+                5
         );
         gtList.add(gt1);
 
@@ -34,6 +36,7 @@ public class Example {
         for (QuestionAnswers qa : qaList) {
             System.out.println(qa);
         }
+        System.out.println(qaList.size());
 
     }
 
