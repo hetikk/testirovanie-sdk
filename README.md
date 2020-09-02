@@ -86,6 +86,16 @@ GroupTest gt3 = new GroupTest(
 );
 gtList.add(gt3);
 
+System.out.println("Списока вопросов и ответов:");
+Map<String, List<QuestionAnswers>> qaMap = testirovanie.getQuestionsAndAnswers(gtList);
+for (Map.Entry<String, List<QuestionAnswers>> entry : qaMap.entrySet()) {
+    System.out.println("Предмет: " + entry.getKey());
+    for (QuestionAnswers qa : entry.getValue()) {
+        System.out.println(qa);
+    }
+    System.out.println();
+}
+
 List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gtList);
 
 for (QuestionAnswers qa : qaList) {

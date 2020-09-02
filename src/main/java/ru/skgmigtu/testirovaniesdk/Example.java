@@ -6,9 +6,11 @@ import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
 import ru.skgmigtu.testirovaniesdk.models.GroupItem;
 import ru.skgmigtu.testirovaniesdk.models.GroupTest;
 import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
+import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Example {
 
@@ -26,17 +28,28 @@ public class Example {
                     add(new GroupItem(Type.RATING_1, Part.B));
                     add(new GroupItem(Type.RATING_2, Part.A));
                     add(new GroupItem(Type.RATING_2, Part.B));
+                    add(new GroupItem(Type.EXAM, Part.A));
+                    add(new GroupItem(Type.EXAM, Part.B));
                 }},
-                5
+                35
         );
         gtList.add(gt1);
 
         System.out.println("Списока вопросов и ответов:");
-        List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gtList);
-        for (QuestionAnswers qa : qaList) {
-            System.out.println(qa);
+        Map<String, List<QuestionAnswers>> qaMap = testirovanie.getQuestionsAndAnswers(gtList);
+        for (Map.Entry<String, List<QuestionAnswers>> entry : qaMap.entrySet()) {
+            System.out.println("Предмет: " + entry.getKey());
+            for (QuestionAnswers qa : entry.getValue()) {
+                System.out.println(qa);
+            }
+            System.out.println();
         }
-        System.out.println(qaList.size());
+
+        System.out.println("Списока вопросов и ответов:");
+        List<SubjectValue> asList = testirovanie.availableSubjects(16001, Type.RATING_1, Part.A);
+        for (SubjectValue as : asList) {
+            System.out.println(as);
+        }
 
     }
 
