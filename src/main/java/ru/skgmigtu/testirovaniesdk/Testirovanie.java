@@ -94,16 +94,16 @@ public class Testirovanie {
         return new ArrayList<>(result);
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(List<GroupTest> gtList) throws Exception {
+    public Map<String, List<QuestionAnswers>> getQuestionsAndAnswers(List<GroupTest> gtList) throws Exception {
         // TODO: сделать обработку в нескольких потоках
 
-        Set<QuestionAnswers> result = new TreeSet<>();
+        Map<String, List<QuestionAnswers>> result = new TreeMap<>();
 
         for (GroupTest gt : gtList) {
-            result.addAll(getQuestionsAndAnswers(gt));
+            result.put(gt.getSubjectName(), getQuestionsAndAnswers(gt));
         }
 
-        return new ArrayList<>(result);
+        return result;
     }
 
     public List<QuestionAnswers> parse(Document doc) {
