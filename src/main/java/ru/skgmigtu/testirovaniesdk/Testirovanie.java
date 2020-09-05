@@ -2,6 +2,7 @@ package ru.skgmigtu.testirovaniesdk;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.commons.io.FileUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,8 +11,8 @@ import org.jsoup.select.Elements;
 import ru.skgmigtu.testirovaniesdk.models.*;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +24,7 @@ public class Testirovanie {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    public static final int REPETITION_COUNT = 35;
+    public static final int REPETITION_COUNT = 40;
 
     public Testirovanie(BaseUrl baseUrl) {
         responses = new Responses(baseUrl.value());
@@ -170,7 +171,8 @@ public class Testirovanie {
     public void save(String filename, Object obj) throws IOException {
         if (!filename.endsWith(".json"))
             filename = filename + ".json";
-        GSON.toJson(obj, new FileWriter(filename));
+        String json = GSON.toJson(obj);
+        FileUtils.writeStringToFile(new File(filename), json, StandardCharsets.UTF_8);
     }
 
     public enum BaseUrl {
