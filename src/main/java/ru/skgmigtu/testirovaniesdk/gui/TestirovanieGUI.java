@@ -21,10 +21,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.TreeSet;
 
 public class TestirovanieGUI extends WebFrame {
 
@@ -198,6 +196,28 @@ public class TestirovanieGUI extends WebFrame {
         // add(combineFiles);
 
         //--------------------------------------------------------------------------------------------------------------
+        Map<Integer, Boolean> checkedRows = new HashMap<>();
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = table.rowAtPoint(evt.getPoint());
+                int col = table.columnAtPoint(evt.getPoint());
+                if (col == 0) {
+                    if (!checkedRows.containsKey(row) || !checkedRows.get(row)) {
+                        for (int i = 1; i <= 8; i++) {
+                            tableModel.setValueAt(Boolean.TRUE, row, i);
+                        }
+                        checkedRows.put(row, Boolean.TRUE);
+                    } else {
+                        for (int i = 1; i <= 8; i++) {
+                            tableModel.setValueAt(Boolean.FALSE, row, i);
+                        }
+                        checkedRows.put(row, Boolean.FALSE);
+                    }
+                }
+                table.setModel(tableModel);
+            }
+        });
 
         start.addActionListener(e -> {
             List<GroupTest> gtList = new ArrayList<>();
