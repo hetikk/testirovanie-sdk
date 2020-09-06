@@ -69,15 +69,12 @@ public class QuestionAnswers implements Serializable, Comparable<QuestionAnswers
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QuestionAnswers that = (QuestionAnswers) o;
-        return multipleChoice == that.multipleChoice &&
-                question.equals(that.question) &&
-                rightAnswer.equals(that.rightAnswer) &&
-                answers.equals(that.answers);
+        return question.equals(that.question);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(question, rightAnswer, answers, multipleChoice);
+        return question.hashCode();
     }
 
     @Override

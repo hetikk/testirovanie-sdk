@@ -41,9 +41,9 @@ public class QAItem implements Serializable, Comparable<QAItem> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        QAItem QAItem = (QAItem) o;
-        return id == QAItem.id &&
-                text.equals(QAItem.text);
+        QAItem qaItem = (QAItem) o;
+        return id == qaItem.id &&
+                text.equals(qaItem.text);
     }
 
     @Override

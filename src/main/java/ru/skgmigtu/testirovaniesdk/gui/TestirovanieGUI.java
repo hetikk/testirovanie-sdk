@@ -166,7 +166,7 @@ public class TestirovanieGUI extends WebFrame {
         repetitionsNumberLbl.setFontSize(13);
         add(repetitionsNumberLbl);
 
-        WebTextField repetitionsNumberTF = new WebTextField("1");
+        WebTextField repetitionsNumberTF = new WebTextField("30");
         repetitionsNumberTF.setBounds(1220, 300, 60, 30);
         repetitionsNumberTF.setFontSize(13);
         repetitionsNumberTF.setHorizontalAlignment(WebTextField.CENTER);
@@ -177,7 +177,7 @@ public class TestirovanieGUI extends WebFrame {
         firstStudentIDLbl.setFontSize(13);
         add(firstStudentIDLbl);
 
-        WebTextField firstStudentIDTF = new WebTextField("17341");
+        WebTextField firstStudentIDTF = new WebTextField("16001");
         firstStudentIDTF.setBounds(1220, 340, 60, 30);
         firstStudentIDTF.setFontSize(13);
         firstStudentIDTF.setHorizontalAlignment(WebTextField.CENTER);
