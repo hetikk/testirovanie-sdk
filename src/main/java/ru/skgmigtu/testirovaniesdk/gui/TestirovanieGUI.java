@@ -177,7 +177,7 @@ public class TestirovanieGUI extends WebFrame {
         firstStudentIDLbl.setFontSize(13);
         add(firstStudentIDLbl);
 
-        WebTextField firstStudentIDTF = new WebTextField("16001");
+        WebTextField firstStudentIDTF = new WebTextField("17343");
         firstStudentIDTF.setBounds(1220, 340, 60, 30);
         firstStudentIDTF.setFontSize(13);
         firstStudentIDTF.setHorizontalAlignment(WebTextField.CENTER);
@@ -315,7 +315,7 @@ public class TestirovanieGUI extends WebFrame {
                     for (GroupTest gt : gtList) {
                         List<QuestionAnswers> qaList = testirovanie.getQuestionsAndAnswers(gt);
                         int timePrefix = (int) (new Date().getTime() % 1000000000);
-                        testirovanie.save(filenamePrefix + timePrefix + " " + gt.getSubjectName(), qaList);
+                        testirovanie.save(filenamePrefix + gt.getSubjectName() + " " + timePrefix, qaList);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
