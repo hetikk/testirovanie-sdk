@@ -38,7 +38,7 @@ public class Responses {
                 .execute();
     }
 
-    Connection.Response getSubjectResponse(int studID, Module module, Part part) throws IOException {
+    public Connection.Response getSubjectResponse(int studID, Module module, Part part) throws IOException {
         Connection.Response chooseResponse = getChooseResponse(studID);
         Document chooseDoc = chooseResponse.parse();
         return Jsoup.connect(TRY_LINK)

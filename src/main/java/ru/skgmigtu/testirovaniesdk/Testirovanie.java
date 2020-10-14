@@ -119,7 +119,7 @@ public class Testirovanie {
 
         return questions.stream()
                 .map(Element::text)
-                .peek(System.out::println)
+//                .peek(System.out::println)
                 .collect(Collectors.toList());
     }
 
