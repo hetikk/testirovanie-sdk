@@ -248,57 +248,57 @@ public class TestirovanieGUI extends WebFrame {
 
                     if (r1a) {
                         items.add(new GroupItem(
-                                TestType.RATING_1,
-                                TestPart.A
+                                Module.RATING_1,
+                                Part.A
                         ));
                     }
 
                     if (r1b) {
                         items.add(new GroupItem(
-                                TestType.RATING_1,
-                                TestPart.B
+                                Module.RATING_1,
+                                Part.B
                         ));
                     }
 
                     if (r2a) {
                         items.add(new GroupItem(
-                                TestType.RATING_2,
-                                TestPart.A
+                                Module.RATING_2,
+                                Part.A
                         ));
                     }
 
                     if (r2b) {
                         items.add(new GroupItem(
-                                TestType.RATING_2,
-                                TestPart.B
+                                Module.RATING_2,
+                                Part.B
                         ));
                     }
 
                     if (za) {
                         items.add(new GroupItem(
-                                TestType.ZACHET,
-                                TestPart.A
+                                Module.ZACHET,
+                                Part.A
                         ));
                     }
 
                     if (zb) {
                         items.add(new GroupItem(
-                                TestType.ZACHET,
-                                TestPart.B
+                                Module.ZACHET,
+                                Part.B
                         ));
                     }
 
                     if (ea) {
                         items.add(new GroupItem(
-                                TestType.EXAM,
-                                TestPart.A
+                                Module.EXAM,
+                                Part.A
                         ));
                     }
 
                     if (eb) {
                         items.add(new GroupItem(
-                                TestType.EXAM,
-                                TestPart.B
+                                Module.EXAM,
+                                Part.B
                         ));
                     }
                     group.setGroupItems(items);

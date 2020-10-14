@@ -5,31 +5,31 @@ import java.util.Objects;
 
 public class GroupItem implements Serializable, Comparable<GroupItem> {
 
-    private TestType testType;
-    private TestPart testPart;
+    private Module module;
+    private Part part;
 
     public GroupItem() {
     }
 
-    public GroupItem(TestType testType, TestPart testPart) {
-        this.testType = testType;
-        this.testPart = testPart;
+    public GroupItem(Module module, Part part) {
+        this.module = module;
+        this.part = part;
     }
 
-    public TestType getTestType() {
-        return testType;
+    public Module getModule() {
+        return module;
     }
 
-    public void setTestType(TestType testType) {
-        this.testType = testType;
+    public void setModule(Module module) {
+        this.module = module;
     }
 
-    public TestPart getTestPart() {
-        return testPart;
+    public Part getPart() {
+        return part;
     }
 
-    public void setTestPart(TestPart testPart) {
-        this.testPart = testPart;
+    public void setPart(Part part) {
+        this.part = part;
     }
 
     @Override
@@ -37,25 +37,25 @@ public class GroupItem implements Serializable, Comparable<GroupItem> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupItem groupItem = (GroupItem) o;
-        return testType == groupItem.testType &&
-                testPart == groupItem.testPart;
+        return module == groupItem.module &&
+                part == groupItem.part;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(testType, testPart);
+        return Objects.hash(module, part);
     }
 
     @Override
     public String toString() {
-        return String.format("TestItem { %s %s }", testType, testPart);
+        return String.format("TestItem { %s %s }", module, part);
     }
 
     @Override
     public int compareTo(GroupItem o) {
-        int t = Integer.compare(testType.value(), o.testType.value());
+        int t = Integer.compare(module.value(), o.module.value());
         if (t != 0) {
-            return Integer.compare(testPart.value(), o.testPart.value());
+            return Integer.compare(part.value(), o.part.value());
         }
         return t;
     }
