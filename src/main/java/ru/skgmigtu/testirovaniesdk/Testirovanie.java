@@ -34,16 +34,16 @@ public class Testirovanie {
         responses = new Responses(baseUrl);
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part) throws Exception {
+    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, TestType testType, TestPart testPart) throws Exception {
         // получаем соединение со страницей тестирования
-        System.out.println(String.format("{ %5d, %60s, %8s, %s, %s }", studID, subject, type, part, Thread.currentThread().getName()));
-        Connection.Response testConnection = responses.getTestResponse(studID, subject, type, part);
+        System.out.println(String.format("{ %5d, %60s, %8s, %s, %s }", studID, subject, testType, testPart, Thread.currentThread().getName()));
+        Connection.Response testConnection = responses.getTestResponse(studID, subject, testType, testPart);
         return testConnection == null ?
                 Collections.emptyList() :
                 parse(testConnection.parse()); // получаем страницу тестирования и парсим ее
     }
 
-    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, Type type, Part part, int repetitions) throws Exception {
+    public List<QuestionAnswers> getQuestionsAndAnswers(int studID, String subject, TestType testType, TestPart testPart, int repetitions) throws Exception {
         if (repetitions < 1)
             throw new IllegalArgumentException("значение переменной repetitions не может быть меньше 1");
         if (REPETITION_COUNT < repetitions)
@@ -60,7 +60,7 @@ public class Testirovanie {
             int finalI = i;
             threadPool.execute(() -> {
                 try {
-                    result.addAll(getQuestionsAndAnswers(finalI, subject, type, part));
+                    result.addAll(getQuestionsAndAnswers(finalI, subject, testType, testPart));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -86,8 +86,8 @@ public class Testirovanie {
             result.addAll(getQuestionsAndAnswers(
                     gt.getStudID(),
                     gt.getSubjectName(),
-                    item.getType(),
-                    item.getPart(),
+                    item.getTestType(),
+                    item.getTestPart(),
                     gt.getRepetitions()
             ));
         }
@@ -149,8 +149,8 @@ public class Testirovanie {
         return parse(document);
     }
 
-    public List<SubjectValue> availableSubjects(int studID, Type type, Part part) throws IOException {
-        Connection.Response subjectResponse = responses.getSubjectResponse(studID, type, part);
+    public List<SubjectValue> availableSubjects(int studID, TestType testType, TestPart testPart) throws IOException {
+        Connection.Response subjectResponse = responses.getSubjectResponse(studID, testType, testPart);
         Document subjectDocument = subjectResponse.parse();
         Elements children = subjectDocument.select("#disDDL > option");
 
@@ -173,53 +173,6 @@ public class Testirovanie {
             filename = filename + ".json";
         String json = GSON.toJson(obj);
         FileUtils.writeStringToFile(new File(filename), json, StandardCharsets.UTF_8);
-    }
-
-    public enum BaseUrl {
-        LOCAL("testirovanie"),
-        REMOTE("http://testirovanie.skgmi-gtu.ru");
-
-        private String value;
-
-        BaseUrl(String value) {
-            this.value = value;
-        }
-
-        public String value() {
-            return value;
-        }
-    }
-
-    public enum Part {
-        A(1),
-        B(2);
-
-        private int value;
-
-        Part(int value) {
-            this.value = value;
-        }
-
-        public int value() {
-            return value;
-        }
-    }
-
-    public enum Type {
-        RATING_1(1),
-        RATING_2(2),
-        ZACHET(3),
-        EXAM(4);
-
-        private int value;
-
-        Type(int value) {
-            this.value = value;
-        }
-
-        public int value() {
-            return value;
-        }
     }
 
 }

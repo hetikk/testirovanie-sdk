@@ -9,9 +9,7 @@ import com.alee.laf.text.WebTextArea;
 import com.alee.laf.text.WebTextField;
 import com.alee.laf.window.WebFrame;
 import ru.skgmigtu.testirovaniesdk.Testirovanie;
-import ru.skgmigtu.testirovaniesdk.models.GroupItem;
-import ru.skgmigtu.testirovaniesdk.models.GroupTest;
-import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
+import ru.skgmigtu.testirovaniesdk.models.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -21,14 +19,14 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class TestirovanieGUI extends WebFrame {
 
     private Point position;
 
-    private static Testirovanie testirovanie = new Testirovanie(Testirovanie.BaseUrl.REMOTE);
+    private static Testirovanie testirovanie = new Testirovanie(BaseUrl.REMOTE);
 
     public TestirovanieGUI() {
         setLayout(null);
@@ -250,57 +248,57 @@ public class TestirovanieGUI extends WebFrame {
 
                     if (r1a) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.RATING_1,
-                                Testirovanie.Part.A
+                                TestType.RATING_1,
+                                TestPart.A
                         ));
                     }
 
                     if (r1b) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.RATING_1,
-                                Testirovanie.Part.B
+                                TestType.RATING_1,
+                                TestPart.B
                         ));
                     }
 
                     if (r2a) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.RATING_2,
-                                Testirovanie.Part.A
+                                TestType.RATING_2,
+                                TestPart.A
                         ));
                     }
 
                     if (r2b) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.RATING_2,
-                                Testirovanie.Part.B
+                                TestType.RATING_2,
+                                TestPart.B
                         ));
                     }
 
                     if (za) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.ZACHET,
-                                Testirovanie.Part.A
+                                TestType.ZACHET,
+                                TestPart.A
                         ));
                     }
 
                     if (zb) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.ZACHET,
-                                Testirovanie.Part.B
+                                TestType.ZACHET,
+                                TestPart.B
                         ));
                     }
 
                     if (ea) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.EXAM,
-                                Testirovanie.Part.A
+                                TestType.EXAM,
+                                TestPart.A
                         ));
                     }
 
                     if (eb) {
                         items.add(new GroupItem(
-                                Testirovanie.Type.EXAM,
-                                Testirovanie.Part.B
+                                TestType.EXAM,
+                                TestPart.B
                         ));
                     }
                     group.setGroupItems(items);

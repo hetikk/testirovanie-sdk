@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class QuestionAnswers implements Serializable, Comparable<QuestionAnswers> {
 

@@ -5,8 +5,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
+import ru.skgmigtu.testirovaniesdk.models.TestPart;
+import ru.skgmigtu.testirovaniesdk.models.TestType;
 
 import java.io.IOException;
 
@@ -44,7 +44,7 @@ public class Responses {
                 .execute();
     }
 
-    public Connection.Response getSubjectResponse(int studID, Type type, Part part) throws IOException {
+    public Connection.Response getSubjectResponse(int studID, TestType testType, TestPart testPart) throws IOException {
         Connection.Response chooseResponse = getChooseResponse(studID);
         Document chooseDoc = chooseResponse.parse();
         return Jsoup.connect(TRY_LINK)
@@ -54,18 +54,18 @@ public class Responses {
                 .data("__EVENTARGUMENT", getElementValueById(chooseDoc, "__EVENTARGUMENT"))
                 .data("__LASTFOCUS", getElementValueById(chooseDoc, "__LASTFOCUS"))
                 .data("__VIEWSTATE", getElementValueById(chooseDoc, "__VIEWSTATE"))
-                .data("modRBL", type.value() + "")
-                .data("levelRBL", part.value() + "")
+                .data("modRBL", testType.value() + "")
+                .data("levelRBL", testPart.value() + "")
                 .data("disDDL", "0")
                 .method(Connection.Method.POST)
                 .userAgent(USER_AGENT)
                 .execute();
     }
 
-    public Connection.Response getTestResponse(int studID, String subject, Type type, Part part) throws IOException {
+    public Connection.Response getTestResponse(int studID, String subject, TestType testType, TestPart testPart) throws IOException {
         // получаем ответа со страницы выбора дисциплины в зависимости от
         // указанных типа и сложности тестирования
-        Connection.Response subjectResponse = getSubjectResponse(studID, type, part);
+        Connection.Response subjectResponse = getSubjectResponse(studID, testType, testPart);
 
         // получаем страницу выбора дисциплины в зависимости от
         // выбранных ранее типа и сложности тестирования
@@ -74,7 +74,7 @@ public class Responses {
         // получаем value выбранной дисциплины
         String subjectValue = getSubjectValue(subjectPage, subject);
         if (subjectValue == null) {
-            System.err.println(String.format("Дисциплина '%s (%s, %s)' не найдена для студента с ID=%d", subject, type, part, studID));
+            System.err.println(String.format("Дисциплина '%s (%s, %s)' не найдена для студента с ID=%d", subject, testType, testPart, studID));
             return null;
         }
 
@@ -86,8 +86,8 @@ public class Responses {
                 .data("__EVENTARGUMENT", getElementValueById(subjectPage, "__EVENTARGUMENT"))
                 .data("__LASTFOCUS", getElementValueById(subjectPage, "__LASTFOCUS"))
                 .data("__VIEWSTATE", getElementValueById(subjectPage, "__VIEWSTATE"))
-                .data("modRBL", type.value() + "")
-                .data("levelRBL", part.value() + "")
+                .data("modRBL", testType.value() + "")
+                .data("levelRBL", testPart.value() + "")
                 .data("disDDL", subjectValue)
                 .method(Connection.Method.POST)
                 .userAgent(USER_AGENT)

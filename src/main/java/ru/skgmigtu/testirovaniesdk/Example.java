@@ -1,12 +1,6 @@
 package ru.skgmigtu.testirovaniesdk;
 
-import ru.skgmigtu.testirovaniesdk.Testirovanie.BaseUrl;
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
-import ru.skgmigtu.testirovaniesdk.models.GroupItem;
-import ru.skgmigtu.testirovaniesdk.models.GroupTest;
-import ru.skgmigtu.testirovaniesdk.models.QuestionAnswers;
-import ru.skgmigtu.testirovaniesdk.models.SubjectValue;
+import ru.skgmigtu.testirovaniesdk.models.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +18,14 @@ public class Example {
                 16001,
                 "Intranet-технология",
                 new ArrayList<GroupItem>() {{
-                    add(new GroupItem(Type.RATING_1, Part.A));
-                    add(new GroupItem(Type.RATING_1, Part.B));
-                    add(new GroupItem(Type.RATING_2, Part.A));
-                    add(new GroupItem(Type.RATING_2, Part.B));
-                    add(new GroupItem(Type.EXAM, Part.A));
-                    add(new GroupItem(Type.EXAM, Part.B));
+                    add(new GroupItem(TestType.RATING_1, TestPart.A));
+//                    add(new GroupItem(Type.RATING_1, Part.B));
+//                    add(new GroupItem(Type.RATING_2, Part.A));
+//                    add(new GroupItem(Type.RATING_2, Part.B));
+//                    add(new GroupItem(Type.EXAM, Part.A));
+//                    add(new GroupItem(Type.EXAM, Part.B));
                 }},
-                35
+                1
         );
         gtList.add(gt1);
 
@@ -43,12 +37,6 @@ public class Example {
                 System.out.println(qa);
             }
             System.out.println();
-        }
-
-        System.out.println("Списока вопросов и ответов:");
-        List<SubjectValue> asList = testirovanie.availableSubjects(16001, Type.RATING_1, Part.A);
-        for (SubjectValue as : asList) {
-            System.out.println(as);
         }
 
     }

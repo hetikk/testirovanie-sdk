@@ -1,38 +1,35 @@
 package ru.skgmigtu.testirovaniesdk.models;
 
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Part;
-import ru.skgmigtu.testirovaniesdk.Testirovanie.Type;
-
 import java.io.Serializable;
 import java.util.Objects;
 
 public class GroupItem implements Serializable, Comparable<GroupItem> {
 
-    private Type type;
-    private Part part;
+    private TestType testType;
+    private TestPart testPart;
 
     public GroupItem() {
     }
 
-    public GroupItem(Type type, Part part) {
-        this.type = type;
-        this.part = part;
+    public GroupItem(TestType testType, TestPart testPart) {
+        this.testType = testType;
+        this.testPart = testPart;
     }
 
-    public Type getType() {
-        return type;
+    public TestType getTestType() {
+        return testType;
     }
 
-    public void setType(Type type) {
-        this.type = type;
+    public void setTestType(TestType testType) {
+        this.testType = testType;
     }
 
-    public Part getPart() {
-        return part;
+    public TestPart getTestPart() {
+        return testPart;
     }
 
-    public void setPart(Part part) {
-        this.part = part;
+    public void setTestPart(TestPart testPart) {
+        this.testPart = testPart;
     }
 
     @Override
@@ -40,25 +37,25 @@ public class GroupItem implements Serializable, Comparable<GroupItem> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GroupItem groupItem = (GroupItem) o;
-        return type == groupItem.type &&
-                part == groupItem.part;
+        return testType == groupItem.testType &&
+                testPart == groupItem.testPart;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, part);
+        return Objects.hash(testType, testPart);
     }
 
     @Override
     public String toString() {
-        return String.format("TestItem { %s %s }", type, part);
+        return String.format("TestItem { %s %s }", testType, testPart);
     }
 
     @Override
     public int compareTo(GroupItem o) {
-        int t = Integer.compare(type.value(), o.type.value());
+        int t = Integer.compare(testType.value(), o.testType.value());
         if (t != 0) {
-            return Integer.compare(part.value(), o.part.value());
+            return Integer.compare(testPart.value(), o.testPart.value());
         }
         return t;
     }
